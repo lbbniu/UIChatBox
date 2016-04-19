@@ -1,0 +1,327 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03F962B21B4BE6F2006F9E28 /* UZUIChatBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F962AD1B4BE6F2006F9E28 /* UZUIChatBox.m */; };
+		03F962B31B4BE6F2006F9E28 /* UZUIChatBoxBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F962AF1B4BE6F2006F9E28 /* UZUIChatBoxBtnView.m */; };
+		03F962B41B4BE6F2006F9E28 /* UZUIChatBoxTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F962B11B4BE6F2006F9E28 /* UZUIChatBoxTextView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		03F9627A1B4BE603006F9E28 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		03F9627C1B4BE603006F9E28 /* libUIChatBox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUIChatBox.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		03F9628D1B4BE603006F9E28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		03F962A41B4BE6E4006F9E28 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		03F962A51B4BE6E4006F9E28 /* JSONParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONParser.h; sourceTree = "<group>"; };
+		03F962A61B4BE6E4006F9E28 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		03F962A71B4BE6E4006F9E28 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		03F962A81B4BE6E4006F9E28 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
+		03F962A91B4BE6E4006F9E28 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		03F962AA1B4BE6E4006F9E28 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		03F962AB1B4BE6E4006F9E28 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		03F962AC1B4BE6F2006F9E28 /* UZUIChatBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZUIChatBox.h; sourceTree = "<group>"; };
+		03F962AD1B4BE6F2006F9E28 /* UZUIChatBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UZUIChatBox.m; sourceTree = "<group>"; };
+		03F962AE1B4BE6F2006F9E28 /* UZUIChatBoxBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZUIChatBoxBtnView.h; sourceTree = "<group>"; };
+		03F962AF1B4BE6F2006F9E28 /* UZUIChatBoxBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UZUIChatBoxBtnView.m; sourceTree = "<group>"; };
+		03F962B01B4BE6F2006F9E28 /* UZUIChatBoxTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZUIChatBoxTextView.h; sourceTree = "<group>"; };
+		03F962B11B4BE6F2006F9E28 /* UZUIChatBoxTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UZUIChatBoxTextView.m; sourceTree = "<group>"; };
+		03F962B51B4BE703006F9E28 /* NSDictionaryUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDictionaryUtils.h; sourceTree = "<group>"; };
+		03F962B61B4BE703006F9E28 /* UZAppUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZAppUtils.h; sourceTree = "<group>"; };
+		03F962B71B4BE703006F9E28 /* UZModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZModule.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		03F962791B4BE603006F9E28 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		03F962731B4BE603006F9E28 = {
+			isa = PBXGroup;
+			children = (
+				03F962961B4BE65D006F9E28 /* headFiles */,
+				03F9627E1B4BE603006F9E28 /* UIChatBox */,
+				03F9628B1B4BE603006F9E28 /* UIChatBoxTests */,
+				03F9627D1B4BE603006F9E28 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		03F9627D1B4BE603006F9E28 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				03F9627C1B4BE603006F9E28 /* libUIChatBox.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		03F9627E1B4BE603006F9E28 /* UIChatBox */ = {
+			isa = PBXGroup;
+			children = (
+				03F962AC1B4BE6F2006F9E28 /* UZUIChatBox.h */,
+				03F962AD1B4BE6F2006F9E28 /* UZUIChatBox.m */,
+				03F962AE1B4BE6F2006F9E28 /* UZUIChatBoxBtnView.h */,
+				03F962AF1B4BE6F2006F9E28 /* UZUIChatBoxBtnView.m */,
+				03F962B01B4BE6F2006F9E28 /* UZUIChatBoxTextView.h */,
+				03F962B11B4BE6F2006F9E28 /* UZUIChatBoxTextView.m */,
+				03F962A31B4BE6E4006F9E28 /* JSON */,
+			);
+			path = UIChatBox;
+			sourceTree = "<group>";
+		};
+		03F9628B1B4BE603006F9E28 /* UIChatBoxTests */ = {
+			isa = PBXGroup;
+			children = (
+				03F9628C1B4BE603006F9E28 /* Supporting Files */,
+			);
+			path = UIChatBoxTests;
+			sourceTree = "<group>";
+		};
+		03F9628C1B4BE603006F9E28 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				03F9628D1B4BE603006F9E28 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		03F962961B4BE65D006F9E28 /* headFiles */ = {
+			isa = PBXGroup;
+			children = (
+				03F962B51B4BE703006F9E28 /* NSDictionaryUtils.h */,
+				03F962B61B4BE703006F9E28 /* UZAppUtils.h */,
+				03F962B71B4BE703006F9E28 /* UZModule.h */,
+			);
+			path = headFiles;
+			sourceTree = "<group>";
+		};
+		03F962A31B4BE6E4006F9E28 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				03F962A41B4BE6E4006F9E28 /* JSON.h */,
+				03F962A51B4BE6E4006F9E28 /* JSONParser.h */,
+				03F962A61B4BE6E4006F9E28 /* NSObject+SBJSON.h */,
+				03F962A71B4BE6E4006F9E28 /* NSString+SBJSON.h */,
+				03F962A81B4BE6E4006F9E28 /* SBJSON.h */,
+				03F962A91B4BE6E4006F9E28 /* SBJsonBase.h */,
+				03F962AA1B4BE6E4006F9E28 /* SBJsonParser.h */,
+				03F962AB1B4BE6E4006F9E28 /* SBJsonWriter.h */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		03F9627B1B4BE603006F9E28 /* UIChatBox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 03F962901B4BE603006F9E28 /* Build configuration list for PBXNativeTarget "UIChatBox" */;
+			buildPhases = (
+				03F962781B4BE603006F9E28 /* Sources */,
+				03F962791B4BE603006F9E28 /* Frameworks */,
+				03F9627A1B4BE603006F9E28 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UIChatBox;
+			productName = UIChatBox;
+			productReference = 03F9627C1B4BE603006F9E28 /* libUIChatBox.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		03F962741B4BE603006F9E28 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "___Turbo___";
+				TargetAttributes = {
+					03F9627B1B4BE603006F9E28 = {
+						CreatedOnToolsVersion = 6.3;
+					};
+				};
+			};
+			buildConfigurationList = 03F962771B4BE603006F9E28 /* Build configuration list for PBXProject "UIChatBox" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 03F962731B4BE603006F9E28;
+			productRefGroup = 03F9627D1B4BE603006F9E28 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				03F9627B1B4BE603006F9E28 /* UIChatBox */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		03F962781B4BE603006F9E28 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03F962B21B4BE6F2006F9E28 /* UZUIChatBox.m in Sources */,
+				03F962B31B4BE6F2006F9E28 /* UZUIChatBoxBtnView.m in Sources */,
+				03F962B41B4BE6F2006F9E28 /* UZUIChatBoxTextView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		03F9628E1B4BE603006F9E28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		03F9628F1B4BE603006F9E28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		03F962911B4BE603006F9E28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7s,
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		03F962921B4BE603006F9E28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7s,
+				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		03F962771B4BE603006F9E28 /* Build configuration list for PBXProject "UIChatBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03F9628E1B4BE603006F9E28 /* Debug */,
+				03F9628F1B4BE603006F9E28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		03F962901B4BE603006F9E28 /* Build configuration list for PBXNativeTarget "UIChatBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				03F962911B4BE603006F9E28 /* Debug */,
+				03F962921B4BE603006F9E28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 03F962741B4BE603006F9E28 /* Project object */;
+}

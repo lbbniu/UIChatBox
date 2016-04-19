@@ -1,0 +1,8 @@
+{
+	modules:[
+		{
+			name:'UIChatBox',
+			class:'com.uzmap.pkg.uzmodules.uzUIChatBox.UzUIChatBox'
+		}
+	]
+}
