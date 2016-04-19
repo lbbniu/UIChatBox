@@ -38,7 +38,7 @@ APICloud 的 UIChatBox 模块是一个聊天输入框模块，可通过此模块
 
 UIChatBox 模块是一个集成表情的聊天输入框，可自定义表情集、及附加功能，监听输入框的高度及位置变化，还可监听录音按钮的相关事件；常用于实现聊天、评论的表情输入及文本输入功能。此模块始终定位在 Window 窗口最底部，其生命周期与所在 Window 窗口一致。**UIChatBox 模块是 chatBox 模块的优化版。**
 
-![UIChatBox](/img/docImage/chatBox.jpg)
+![UIChatBox](http://docs.apicloud.com/img/docImage/chatBox.jpg)
 
 ***本模块源码已开源，地址为：https://github.com/apicloudcom/UIChatBox***
 
