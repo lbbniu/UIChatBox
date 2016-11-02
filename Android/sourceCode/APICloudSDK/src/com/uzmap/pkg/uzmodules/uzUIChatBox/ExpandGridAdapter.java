@@ -94,6 +94,7 @@ public class ExpandGridAdapter extends BaseAdapter {
 				mModule.openCallBack("clickExtras", index);
 			}
 		});
+		viewHolder.imageView.setVisibility(View.GONE);
 		return convertView;
 	}
 

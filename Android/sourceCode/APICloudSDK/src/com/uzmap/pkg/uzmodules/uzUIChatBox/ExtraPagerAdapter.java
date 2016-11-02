@@ -2,7 +2,7 @@
 //UZModule
 //
 //Modified by magic 15/9/14.
-//Copyright (c) 2015年 APICloud. All rights reserved.
+//Copyright (c) 2015骞� APICloud. All rights reserved.
 //
 package com.uzmap.pkg.uzmodules.uzUIChatBox;
 
@@ -32,7 +32,7 @@ public class ExtraPagerAdapter extends PagerAdapter {
 		this.mContext = mContext;
 		this.mViewPager = mViewPager;
 		this.mModuleContext = mModuleContext;
-		this.mBgColor = bgColor;
+		this.mBgColor = UZUtility.parseCssColor("#FFFFFF");//bgColor;
 	}
 
 	@Override

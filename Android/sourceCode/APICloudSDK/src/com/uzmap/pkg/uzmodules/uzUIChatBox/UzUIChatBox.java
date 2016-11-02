@@ -2,7 +2,7 @@
 //UZModule
 //
 //Modified by magic 15/9/14.
-//Copyright (c) 2015年 APICloud. All rights reserved.
+//Copyright (c) 2015骞� APICloud. All rights reserved.
 //
 package com.uzmap.pkg.uzmodules.uzUIChatBox;
 
@@ -263,6 +263,7 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 				mShowEmotionCallBack = moduleContext;
 			} else if (name.equals("showExtras")) {
 				mShowExtrasCallBack = moduleContext;
+				mToggleKeyboardCallBack = moduleContext;
 			} else if (name.equals("valueChanged")) {
 				mValueChangeCallBack = moduleContext;
 			}
@@ -584,7 +585,7 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 		int bgColor = mJsParamsUtil.inputBarBgColor(mModuleContext);
 		mTableLayout.setBackgroundColor(bgColor);
 		mFaceViewPager.setBackgroundColor(UZUtility.parseCssColor("#00FF00"));
-		mExtraViewPager.setBackgroundColor(UZUtility.parseCssColor("#00FF00"));
+		mExtraViewPager.setBackgroundColor(Color.WHITE);//UZUtility.parseCssColor("#FFFFFF")
 	}
 
 	private void initSpeechBtn() {
@@ -1427,7 +1428,8 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 
 	public void inputFieldCallBack(UZModuleContext moduleContext,
 			int inputFieldH, int chatViewH) {
-		if (isCallBack) {
+		//if (isCallBack) {
+			Log.d("lbbniu", "======"+inputFieldH+"===="+chatViewH+"===");
 			JSONObject result = new JSONObject();
 			try {
 				result.put("inputBarHeight", inputFieldH);
@@ -1438,7 +1440,7 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-		}
+		//}
 	}
 
 	public void inputBarHeightCallBack() {
