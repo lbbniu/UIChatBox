@@ -409,12 +409,12 @@ float widthForString(NSString *value ,float fontSize ,float height);
     if ([_placeholderStr isKindOfClass:[NSString class]] && _placeholderStr.length>0) {
         _textView.placeholder.text = _placeholderStr;
     }
-    //表情按钮
+    //表情按钮 这里改成了发送按钮的功能
     UIButton *emotionKeyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     if (extrasBtnStyle) {
-        emotionKeyBtn.frame = CGRectMake(_mainScreenWidth-18-59,13, 26, 26);
+        emotionKeyBtn.frame = CGRectMake(_mainScreenWidth-18-59,12.5, 26, 26);
     } else {
-        emotionKeyBtn.frame = CGRectMake(_mainScreenWidth-9-30, 13, 26, 26);
+        emotionKeyBtn.frame = CGRectMake(_mainScreenWidth-9-30, 12.5, 26, 26);
     }
     emotionKeyBtn.tag = TagEmotionBtn;
     UIImage *emotionImg = [UIImage imageWithContentsOfFile:emotionNormalImg];
@@ -738,15 +738,20 @@ float widthForString(NSString *value ,float fontSize ,float height);
         return;
     }
     //计算每行按钮个数
-    int btnNum = getUIRowCountWith(_mainScreenWidth, 65.0);
+    //int btnNum = getUIRowCountWith(_mainScreenWidth, 65.0);
     //计算有几屏幕显示
-    float pageNumtemp = btnsAry.count/(2.0*btnNum);
-    NSInteger pageNumAdd = btnsAry.count/(2*btnNum);
+    //float pageNumtemp = btnsAry.count/(2.0*btnNum);
+    //计算多少行
+    int btnRow = getLBBRowCountWith(_mainScreenWidth, btnsAry);
+    //计算有几屏幕显示
+    //float pageNumtemp = btnsAry.count/(2.0*btnNum);
+    float pageNumtemp = btnRow/2.0;
+    NSInteger pageNumAdd = btnRow/2;
     if ((pageNumtemp - pageNumAdd) > 0) {
         pageNumAdd ++;
     }
     //计算按钮间隙
-    float verInterval = (_mainScreenWidth - 65*btnNum)/(btnNum + 1);
+    //float verInterval = (_mainScreenWidth - 65*btnNum)/(btnNum + 1);
     //添加页码控制器
     pageControlExtra.numberOfPages = pageNumAdd;
     pageControlExtra.currentPage = 0;
@@ -768,12 +773,67 @@ float widthForString(NSString *value ,float fontSize ,float height);
         }
     }
     NSString *titleColor = [extrasInfo stringValueForKey:@"titleColor" defaultValue:nil];
-    float titleSize = [extrasInfo floatValueForKey:@"titleSize" defaultValue:10];
+    float titleSize = [extrasInfo floatValueForKey:@"titleSize" defaultValue:14];
     if (titleSize == 0) {
-        titleSize = 10;
+        titleSize = 14;
     }
-    //往滚动视图添加按钮
+    
+    int row = 1,j = 0 ;
+    float interval = 0;
+    BOOL isBreak =NO;
     for (int i=0; i<pageNumAdd; i++) {//页循环
+        float baseX = (i+1)*_mainScreenWidth-24;
+        for (; j<btnsAry.count; j++) {
+            float origY;
+            NSDictionary *btnInfo = [btnsAry objectAtIndex:j];
+            NSString *title = [btnInfo stringValueForKey:@"title" defaultValue:nil];
+            float w = widthForString(title,titleSize,titleSize);
+            UILabel *titleLabel = [[UILabel alloc]init];
+            titleLabel.backgroundColor = [UIColor clearColor];
+            if(24+interval + w + 33 > baseX){
+                if(interval + w < baseX-24){
+                    if (row%2==1) { origY =30; }else{ origY = 30+titleSize+30; }
+                    titleLabel.frame = CGRectMake(24+interval, origY, w, titleSize);
+                    row++;
+                    interval = i*_mainScreenWidth;
+                    if(row%2==1){
+                        interval = (i+1)*_mainScreenWidth;
+                        isBreak =YES;
+                    }
+                }else{
+                    row++;
+                    if(row%2==1){
+                        interval = (i+1)*_mainScreenWidth;
+                        j--;
+                        break;
+                    }
+                    interval = i*_mainScreenWidth;
+                    if (row%2==1) { origY =30; }else{ origY = 30+titleSize+30; }
+                    titleLabel.frame = CGRectMake(24+interval, origY, w, titleSize);
+                    interval = interval + w + 33;
+                }
+            }else{
+                if (row%2==1) { origY =30; }else{ origY = 30+titleSize+30; }
+                titleLabel.frame = CGRectMake(24+interval, origY, w, titleSize);
+                interval = interval + w + 33;
+            }
+            titleLabel.text = title;
+            titleLabel.textColor = [UZAppUtils colorFromNSString:titleColor];
+            titleLabel.font = [UIFont systemFontOfSize:titleSize];
+            titleLabel.textAlignment = NSTextAlignmentLeft;
+            titleLabel.userInteractionEnabled=YES;
+            UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labelTouchUpInside:)];
+            [titleLabel addGestureRecognizer:labelTapGestureRecognizer];
+            [addSource addSubview:titleLabel];
+            if(isBreak){
+                isBreak =NO;
+                break;
+            }
+        }
+    }
+
+    //往滚动视图添加按钮
+    /*for (int i=0; i<pageNumAdd; i++) {//页循环
         for (int j=0; j<2; j++) {//行循环
             for (int g=0; g<btnNum; g++) {//列循环
                 int the = 2*btnNum*i+j*btnNum+g;
@@ -813,7 +873,7 @@ float widthForString(NSString *value ,float fontSize ,float height);
                 [addSource addSubview:titleLabel];
             }
         }
-    }
+    }*/
 }
 
 #pragma mark - helper -
@@ -1221,7 +1281,7 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
         NSDictionary *btnInfo = [btnsAry objectAtIndex:j];
         NSString *title = [btnInfo stringValueForKey:@"title" defaultValue:nil];
         float w = widthForString(title,14,14);
-        if(interval - w - 33 <0){
+        if(interval - w - 30 <0){
             row++;
             if(interval - w >0){
                 interval = screenWidth - 48;
@@ -1229,7 +1289,7 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
                 interval = screenWidth - 48 - w;
             }
         }else{
-            interval = interval - w - 33;
+            interval = interval - w - 30;
         }
     }
     return row;
@@ -1245,12 +1305,11 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
     _extrasBoard.backgroundColor = [UZAppUtils colorFromNSString:@"#ffffff"];
     [self addSubview:_extrasBoard fixedOn:_viewName fixed:YES];
     //计算每行按钮个数
-    int btnNum = getUIRowCountWith(_mainScreenWidth, 65.0);
+    //int btnNum = getUIRowCountWith(_mainScreenWidth, 65.0);
     //计算多少行
     int btnRow = getLBBRowCountWith(_mainScreenWidth, btnsAry);
     //计算有几屏幕显示
-    //float pageNumtemp = btnsAry.count/(2.0*btnNum);
-    float pageNumtemp = btnsAry.count/(2.0*btnNum);
+    float pageNumtemp = btnRow/2.0;
     NSInteger pageNumAdd =btnRow/2;
     if ((pageNumtemp - pageNumAdd) > 0) {
         pageNumAdd ++;
@@ -1290,46 +1349,48 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
     if (![titleColor isKindOfClass:[NSString class]] || titleColor.length<=0) {
         titleColor = @"#A3A3A3";
     }
-    float titleSize = [extrasInfo floatValueForKey:@"titleSize" defaultValue:10];
+    float titleSize = [extrasInfo floatValueForKey:@"titleSize" defaultValue:14];
     if (titleSize==0) {
         titleSize =14;
     }
     
     int row = 1,j = 0 ;
     float interval = 0;
+    BOOL isBreak = NO;
     for (int i=0; i<pageNumAdd; i++) {//页循环
-        float baseX = i*_mainScreenWidth-24+_mainScreenWidth;
+        float baseX = (i+1)*_mainScreenWidth-24;
         for (; j<btnsAry.count; j++) {
-            float origX,origY;
+            float origY;
             NSDictionary *btnInfo = [btnsAry objectAtIndex:j];
             NSString *title = [btnInfo stringValueForKey:@"title" defaultValue:nil];
             float w = widthForString(title,titleSize,titleSize);
             UILabel *titleLabel = [[UILabel alloc]init];
             titleLabel.backgroundColor = [UIColor clearColor];
-            if(24+interval + w + 33 > baseX-24){
+            if(24+interval + w + 30 > baseX){
                 if(interval + w < baseX-24){
                     if (row%2==1) { origY =30; }else{ origY = 30+titleSize+30; }
-                    titleLabel.frame = CGRectMake(24+interval, origY, w, 14);
+                    titleLabel.frame = CGRectMake(24+interval, origY, w, titleSize);
                     row++;
                     interval = i*_mainScreenWidth;
                     if(row%2==1){
                         interval = (i+1)*_mainScreenWidth;
-                        break;
+                        isBreak =YES;
                     }
                 }else{
                     row++;
                     if(row%2==1){
                         interval = (i+1)*_mainScreenWidth;
+                        j--;
                         break;
                     }
                     interval = i*_mainScreenWidth;
                     if (row%2==1) { origY =30; }else{ origY = 30+titleSize+30; }
-                    titleLabel.frame = CGRectMake(24+interval, origY, w, 14);
+                    titleLabel.frame = CGRectMake(24+interval, origY, w, titleSize);
                     interval = interval + w + 33;
                 }
             }else{
                 if (row%2==1) { origY =30; }else{ origY = 30+titleSize+30; }
-                titleLabel.frame = CGRectMake(24+interval, origY, w, 14);
+                titleLabel.frame = CGRectMake(24+interval, origY, w, titleSize);
                 interval = interval + w + 33;
             }
             titleLabel.text = title;
@@ -1340,7 +1401,10 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
             UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labelTouchUpInside:)];
             [titleLabel addGestureRecognizer:labelTapGestureRecognizer];
             [addSource addSubview:titleLabel];
-            
+            if(isBreak){
+                isBreak =NO;
+                break;
+            }
         }
     }
    
