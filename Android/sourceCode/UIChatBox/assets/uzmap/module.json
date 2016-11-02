@@ -2,7 +2,7 @@
 	modules:[
 		{
 			name:'UIChatBox',
-			class:'com.uzmap.pkg.uzmodules.uzUIChatBox.UzUIChatBox'
+			class:'com.lbbniu.daishu.uzUIChatBox.UzUIChatBox'
 		}
 	]
 }

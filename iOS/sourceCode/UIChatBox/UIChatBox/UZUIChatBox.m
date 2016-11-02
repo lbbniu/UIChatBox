@@ -66,6 +66,7 @@ typedef enum {
 @property (nonatomic, strong) UIView *chatBgView;
 @property (nonatomic, strong) NSString *emotionNormalImg;
 @property (nonatomic, strong) NSString *emotionHighImg;
+@property (nonatomic, strong) NSString *textNoEmptyImg;
 @property (nonatomic, strong) NSString *keyNormalImg;
 @property (nonatomic, strong) NSString *keyHighImg;
 @property (nonatomic, strong) UIView *emotionView;
@@ -85,7 +86,7 @@ typedef enum {
 @synthesize textView = _textView;
 @synthesize chatBgView = _chatBgView;
 @synthesize sourceAry;
-@synthesize keyHighImg, keyNormalImg, emotionHighImg, emotionNormalImg;
+@synthesize keyHighImg, keyNormalImg, emotionHighImg, emotionNormalImg,textNoEmptyImg;
 @synthesize emotionView = _emotionView, extrasBoard = _extrasBoard;
 @synthesize pageControl, pageControlExtra;
 @synthesize placeholderStr = _placeholderStr;
@@ -93,6 +94,8 @@ typedef enum {
 @synthesize recordBtn = _recordBtn;
 
 int getUIRowCountWith(float screenWidth ,float sideLength);
+int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry);
+float widthForString(NSString *value ,float fontSize ,float height);
 
 #pragma mark-
 #pragma mark lifeCycle
@@ -280,6 +283,12 @@ int getUIRowCountWith(float screenWidth ,float sideLength);
     }
     //表情按钮的图片读取
     NSDictionary *emotionBtnInfo = [styles dictValueForKey:@"emotionBtn" defaultValue:@{}];
+    //文本框不为空的图片
+    NSString *textNoEmptyImgDefault = [[NSBundle mainBundle]pathForResource:@"res_UIChatBox/send2" ofType:@"png"];
+    NSString *textNoEmptyImg1 =  [emotionBtnInfo stringValueForKey:@"noEmpty" defaultValue:textNoEmptyImgDefault];
+    if ([textNoEmptyImg1 isKindOfClass:[NSString class]] && textNoEmptyImg1.length>0) {
+        self.textNoEmptyImg = [self getPathWithUZSchemeURL:textNoEmptyImg1];
+    }
     NSString *emotionImgDefault = [[NSBundle mainBundle]pathForResource:@"res_UIChatBox/face" ofType:@"png"];
     NSString *emotionimg1 =  [emotionBtnInfo stringValueForKey:@"normalImg" defaultValue:emotionImgDefault];
     if ([emotionimg1 isKindOfClass:[NSString class]] && emotionimg1.length>0) {
@@ -574,7 +583,7 @@ int getUIRowCountWith(float screenWidth ,float sideLength);
 - (void)popupBoard:(NSDictionary *)parmasDict_ {
     NSString *target = [parmasDict_ stringValueForKey:@"target" defaultValue:@"emotion"];
     if ([target isEqualToString:@"emotion"]) {
-        UIButton *emotionBtn = (UIButton *)[btnSuperView viewWithTag:TagEmotionBtn];
+        UIButton *emotionBtn = (UIButton *)[_chatBgView viewWithTag:TagEmotionBtn];
         [self emotionBtnClick:emotionBtn];
     } else {
         [self extrasBtnClick:nil];
@@ -863,7 +872,7 @@ int getUIRowCountWith(float screenWidth ,float sideLength);
         line.frame = lineRect;
     }
     //将表情按钮置为表情状态
-    UIButton *tempFceBtn = (UIButton*)[btnSuperView viewWithTag:TagEmotionBtn];
+    UIButton *tempFceBtn = (UIButton*)[_chatBgView viewWithTag:TagEmotionBtn];
     [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
     [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
     emotionBtnState = 0;
@@ -919,7 +928,7 @@ int getUIRowCountWith(float screenWidth ,float sideLength);
         [emotionKeyBtn setImage:[UIImage imageWithContentsOfFile:keyNormalImg] forState:UIControlStateNormal];
         [emotionKeyBtn setImage:[UIImage imageWithContentsOfFile:keyHighImg] forState:UIControlStateHighlighted];
         [emotionKeyBtn addTarget:self action:@selector(emotionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [btnSuperView addSubview:emotionKeyBtn];
+        [_chatBgView addSubview:emotionKeyBtn];
     } else {
         emotionBtnState = 0;
         //打开键盘
@@ -998,9 +1007,9 @@ int getUIRowCountWith(float screenWidth ,float sideLength);
         btns.selected = YES;
     }
     //将按钮置为表情状态
-    UIButton *tempFceBtn = (UIButton*)[btnSuperView viewWithTag:TagEmotionBtn];
-    [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
-    [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
+    //UIButton *tempFceBtn = (UIButton*)[_chatBgView viewWithTag:TagEmotionBtn];
+    //[tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
+    //[tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
     emotionBtnState = 0;
 }
 
@@ -1195,6 +1204,37 @@ int getUIRowCountWith(float screenWidth ,float sideLength);
     }
 }
 
+#pragma -mark -functions
+
+//获取字符串的宽度
+float widthForString(NSString *value ,float fontSize ,float height)
+{
+    CGSize sizeToFit = [value sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:CGSizeMake(CGFLOAT_MAX, height) lineBreakMode:NSLineBreakByWordWrapping];//此处的换行类型（lineBreakMode）可根据自己的实际情况进行设置
+    return sizeToFit.width;
+}
+
+int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
+{
+    int row = 1;
+    float interval = screenWidth - 48;
+    for (int j=0; j<btnsAry.count; j++) {
+        NSDictionary *btnInfo = [btnsAry objectAtIndex:j];
+        NSString *title = [btnInfo stringValueForKey:@"title" defaultValue:nil];
+        float w = widthForString(title,14,14);
+        if(interval - w - 33 <0){
+            row++;
+            if(interval - w >0){
+                interval = screenWidth - 48;
+            }else{
+                interval = screenWidth - 48 - w;
+            }
+        }else{
+            interval = interval - w - 33;
+        }
+    }
+    return row;
+}
+
 - (void)drawExtraBoard:(NSDictionary *)extrasInfo {
     NSArray *btnsAry = [extrasInfo arrayValueForKey:@"btns" defaultValue:nil];
     if (![btnsAry isKindOfClass:[NSArray class]] || btnsAry.count==0) {
@@ -1206,14 +1246,17 @@ int getUIRowCountWith(float screenWidth ,float sideLength);
     [self addSubview:_extrasBoard fixedOn:_viewName fixed:YES];
     //计算每行按钮个数
     int btnNum = getUIRowCountWith(_mainScreenWidth, 65.0);
+    //计算多少行
+    int btnRow = getLBBRowCountWith(_mainScreenWidth, btnsAry);
     //计算有几屏幕显示
+    //float pageNumtemp = btnsAry.count/(2.0*btnNum);
     float pageNumtemp = btnsAry.count/(2.0*btnNum);
-    NSInteger pageNumAdd = btnsAry.count/(2*btnNum);
+    NSInteger pageNumAdd =btnRow/2;
     if ((pageNumtemp - pageNumAdd) > 0) {
         pageNumAdd ++;
     }
     //计算按钮间隙
-    float verInterval = (_mainScreenWidth - 65*btnNum)/(btnNum + 1);
+    //float verInterval = (_mainScreenWidth - 65*btnNum)/(btnNum + 1);
     //添加页码控制器
     self.pageControlExtra = [[UZUIPageControlView alloc]initWithFrame:CGRectMake(0,128-10,126,7)];
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0) {
@@ -1249,51 +1292,104 @@ int getUIRowCountWith(float screenWidth ,float sideLength);
     }
     float titleSize = [extrasInfo floatValueForKey:@"titleSize" defaultValue:10];
     if (titleSize==0) {
-        titleSize =10;
+        titleSize =14;
     }
-    //往滚动视图添加按钮
+    
+    int row = 1,j = 0 ;
+    float interval = 0;
     for (int i=0; i<pageNumAdd; i++) {//页循环
-        for (int j=0; j<2; j++) {//行循环
-            for (int g=0; g<btnNum; g++) {//列循环
-                int the = 2*btnNum*i+j*btnNum+g;
-                if (the >= btnsAry.count) {
-                    return;
-                }
-                float origY;
-                //if (j==0) { origY =15; }else{ origY =15+60+20+11; }
-                if (j==0) { origY =30; }else{ origY = 30+titleSize+30; }
-                NSDictionary *btnInfo = [btnsAry objectAtIndex:the];
-                NSString *normalImg = [btnInfo stringValueForKey:@"normalImg" defaultValue:nil];
-                NSString *highlightImg = [btnInfo stringValueForKey:@"activeImg" defaultValue:nil];
-                NSString *title = [btnInfo stringValueForKey:@"title" defaultValue:nil];
-                UIButton *detailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                detailBtn.frame = CGRectMake(_mainScreenWidth*i+verInterval+(65+verInterval)*g, origY, 65, 65);
-                if (normalImg) {
-                    NSString *realNormPath = [self getPathWithUZSchemeURL:normalImg];
-                    [detailBtn setBackgroundImage:[UIImage imageWithContentsOfFile:realNormPath] forState:UIControlStateNormal];
-                    NSString *realhighPath = [self getPathWithUZSchemeURL:highlightImg];
-                    [detailBtn setBackgroundImage:[UIImage imageWithContentsOfFile:realhighPath] forState:UIControlStateHighlighted];
+        float baseX = i*_mainScreenWidth-24+_mainScreenWidth;
+        for (; j<btnsAry.count; j++) {
+            float origX,origY;
+            NSDictionary *btnInfo = [btnsAry objectAtIndex:j];
+            NSString *title = [btnInfo stringValueForKey:@"title" defaultValue:nil];
+            float w = widthForString(title,titleSize,titleSize);
+            UILabel *titleLabel = [[UILabel alloc]init];
+            titleLabel.backgroundColor = [UIColor clearColor];
+            if(24+interval + w + 33 > baseX-24){
+                if(interval + w < baseX-24){
+                    if (row%2==1) { origY =30; }else{ origY = 30+titleSize+30; }
+                    titleLabel.frame = CGRectMake(24+interval, origY, w, 14);
+                    row++;
+                    interval = i*_mainScreenWidth;
+                    if(row%2==1){
+                        interval = (i+1)*_mainScreenWidth;
+                        break;
+                    }
                 }else{
-                    [detailBtn setBackgroundColor:[UIColor greenColor]];
+                    row++;
+                    if(row%2==1){
+                        interval = (i+1)*_mainScreenWidth;
+                        break;
+                    }
+                    interval = i*_mainScreenWidth;
+                    if (row%2==1) { origY =30; }else{ origY = 30+titleSize+30; }
+                    titleLabel.frame = CGRectMake(24+interval, origY, w, 14);
+                    interval = interval + w + 33;
                 }
-                [detailBtn addTarget:self action:@selector(extrasBoardClick:) forControlEvents:UIControlEventTouchUpInside];
-                detailBtn.tag = the;
-                //[addSource addSubview:detailBtn];
-                UILabel *titleLabel = [[UILabel alloc]init];
-                titleLabel.backgroundColor = [UIColor clearColor];
-                //titleLabel.frame = CGRectMake(detailBtn.frame.origin.x, detailBtn.frame.origin.y+5.0, 60, 20);
-                titleLabel.frame = CGRectMake(_mainScreenWidth*i+verInterval+(65+verInterval)*g, origY, 65, 14);
-                titleLabel.text = title;
-                titleLabel.textColor = [UZAppUtils colorFromNSString:titleColor];
-                titleLabel.font = [UIFont systemFontOfSize:titleSize];
-                titleLabel.textAlignment = NSTextAlignmentLeft;
-                titleLabel.userInteractionEnabled=YES;
-                UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labelTouchUpInside:)];
-                [titleLabel addGestureRecognizer:labelTapGestureRecognizer];
-                [addSource addSubview:titleLabel];
+            }else{
+                if (row%2==1) { origY =30; }else{ origY = 30+titleSize+30; }
+                titleLabel.frame = CGRectMake(24+interval, origY, w, 14);
+                interval = interval + w + 33;
             }
+            titleLabel.text = title;
+            titleLabel.textColor = [UZAppUtils colorFromNSString:titleColor];
+            titleLabel.font = [UIFont systemFontOfSize:titleSize];
+            titleLabel.textAlignment = NSTextAlignmentLeft;
+            titleLabel.userInteractionEnabled=YES;
+            UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labelTouchUpInside:)];
+            [titleLabel addGestureRecognizer:labelTapGestureRecognizer];
+            [addSource addSubview:titleLabel];
+            
         }
     }
+   
+    
+    //往滚动视图添加按钮
+//    for (int i=0; i<pageNumAdd; i++) {//页循环
+//        for (int j=0; j<2; j++) {//行循环
+//            for (int g=0; g<btnNum; g++) {//列循环
+//                int the = 2*btnNum*i+j*btnNum+g;
+//                if (the >= btnsAry.count) {
+//                    return;
+//                }
+//                float origY;
+//                //if (j==0) { origY =15; }else{ origY =15+60+20+11; }
+//                if (j==0) { origY =30; }else{ origY = 30+titleSize+30; }
+//                NSDictionary *btnInfo = [btnsAry objectAtIndex:the];
+//                /*NSString *normalImg = [btnInfo stringValueForKey:@"normalImg" defaultValue:nil];
+//                NSString *highlightImg = [btnInfo stringValueForKey:@"activeImg" defaultValue:nil];
+//                UIButton *detailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//                detailBtn.frame = CGRectMake(_mainScreenWidth*i+verInterval+(65+verInterval)*g, origY, 65, 65);
+//                if (normalImg) {
+//                    NSString *realNormPath = [self getPathWithUZSchemeURL:normalImg];
+//                    [detailBtn setBackgroundImage:[UIImage imageWithContentsOfFile:realNormPath] forState:UIControlStateNormal];
+//                    NSString *realhighPath = [self getPathWithUZSchemeURL:highlightImg];
+//                    [detailBtn setBackgroundImage:[UIImage imageWithContentsOfFile:realhighPath] forState:UIControlStateHighlighted];
+//                }else{
+//                    [detailBtn setBackgroundColor:[UIColor greenColor]];
+//                }
+//                [detailBtn addTarget:self action:@selector(extrasBoardClick:) forControlEvents:UIControlEventTouchUpInside];
+//                detailBtn.tag = the;
+//                //[addSource addSubview:detailBtn];*/
+//                
+//                NSString *title = [btnInfo stringValueForKey:@"title" defaultValue:nil];
+//                NSLog(@"获得字符串:%@,的宽度:%f",title,widthForString(title,14,14));
+//                UILabel *titleLabel = [[UILabel alloc]init];
+//                titleLabel.backgroundColor = [UIColor clearColor];
+//                //titleLabel.frame = CGRectMake(detailBtn.frame.origin.x, detailBtn.frame.origin.y+5.0, 60, 20);
+//                titleLabel.frame = CGRectMake(_mainScreenWidth*i+verInterval+(65+verInterval)*g, origY, 65, 14);
+//                titleLabel.text = title;
+//                titleLabel.textColor = [UZAppUtils colorFromNSString:titleColor];
+//                titleLabel.font = [UIFont systemFontOfSize:titleSize];
+//                titleLabel.textAlignment = NSTextAlignmentLeft;
+//                titleLabel.userInteractionEnabled=YES;
+//                UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labelTouchUpInside:)];
+//                [titleLabel addGestureRecognizer:labelTapGestureRecognizer];
+//                [addSource addSubview:titleLabel];
+//            }
+//        }
+//    }
 }
 -(void) labelTouchUpInside:(UITapGestureRecognizer *)recognizer{
     
@@ -1349,7 +1445,7 @@ int getUIRowCountWith(float screenWidth ,float sideLength);
     [tempSpeechBtn setImage:[UIImage imageWithContentsOfFile:normalIconAC] forState:UIControlStateHighlighted];
     tempSpeechBtn.selected = NO;
     //将按钮置为表情状态
-    UIButton *tempFceBtn = (UIButton *)[btnSuperView viewWithTag:TagEmotionBtn];
+    UIButton *tempFceBtn = (UIButton *)[_chatBgView viewWithTag:TagEmotionBtn];
     [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
     [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
     emotionBtnState = 0;
@@ -1529,18 +1625,87 @@ int getUIRowCountWith(float screenWidth ,float sideLength)
     }
     return YES;
 }
+//焦点发生改变
+- (void)textViewDidChangeSelection:(UITextView *)textView{
+    UIButton *tempFceBtn = (UIButton*)[_chatBgView viewWithTag:TagEmotionBtn];
+    if (textView.text.length != 0) {
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateHighlighted];
+    }else{
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
+    }
+}
+//开始编辑
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    UIButton *tempFceBtn = (UIButton*)[_chatBgView viewWithTag:TagEmotionBtn];
+    if (textView.text.length != 0) {
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateHighlighted];
+    }else{
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
+    }
+}
 
+//结束编辑
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    UIButton *tempFceBtn = (UIButton*)[_chatBgView viewWithTag:TagEmotionBtn];
+    if (textView.text.length != 0) {
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateHighlighted];
+    }else{
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
+    }
+}
+//将要开始编辑
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    UIButton *tempFceBtn = (UIButton*)[_chatBgView viewWithTag:TagEmotionBtn];
+    if (textView.text.length != 0) {
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateHighlighted];
+    }else{
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
+    }
+    return YES;
+}
+
+//将要结束编辑
+-(BOOL)textViewShouldEndEditing:(UITextView *)textView{
+    UIButton *tempFceBtn = (UIButton*)[_chatBgView viewWithTag:TagEmotionBtn];
+    if (textView.text.length != 0) {
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateHighlighted];
+    }else{
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
+    }
+    return YES;
+}
 - (void)textViewDidChange:(UITextView *)textView {
     UZUIChatBoxTextView *tempView = (UZUIChatBoxTextView *)textView;
+    UIButton *tempFceBtn = (UIButton*)[_chatBgView viewWithTag:TagEmotionBtn];
+
     if (textView.text.length != 0) {//开始输入则占位提示文字消失
         tempView.placeholder.text = nil;
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:textNoEmptyImg] forState:UIControlStateHighlighted];
     } else if (self.placeholderStr) {//显示占位提示文字
         tempView.placeholder.text = self.placeholderStr;
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
+    }else{
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
     }
     if([textView.text isEqualToString:@"\n"]){//点击了键盘上的发送按钮
         textView.text = @"";
         //点击了键盘上的发送按钮恢复占位提示文字
         tempView.placeholder.text = self.placeholderStr;
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionNormalImg] forState:UIControlStateNormal];
+        [tempFceBtn setImage:[UIImage imageWithContentsOfFile:emotionHighImg] forState:UIControlStateHighlighted];
     }
     if (valueChangedCbid >= 0) {//输入框内的值有变化则回调给相应监听
         NSString *text = textView.text;

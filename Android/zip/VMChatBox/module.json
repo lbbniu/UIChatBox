@@ -1,0 +1,4 @@
+{
+			name:'VMChatBox',
+			class:'com.uzmap.pkg.uzmodules.uzUIChatBox.UzUIChatBox'
+}

@@ -8,5 +8,6 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <preference name="debug" value="true"/>
     <preference name="bounces" value="true" />
 </widget>
