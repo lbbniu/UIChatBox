@@ -23,13 +23,14 @@
     if (self) {
         //标签
         UILabel *markLabel = [[UILabel alloc]init];
-        markLabel.frame = CGRectMake(5, 1, frame.size.width-20, frame.size.height);
+        markLabel.frame = CGRectMake(10, 1, frame.size.width-30, frame.size.height);
         markLabel.backgroundColor = [UIColor clearColor];
         markLabel.textColor = [UIColor grayColor];
         markLabel.textAlignment = NSTextAlignmentLeft;
         markLabel.userInteractionEnabled = NO;
         [self addSubview:markLabel];
         self.placeholder = markLabel;
+        self.textContainerInset = UIEdgeInsetsMake(8,8,0,28);
     }
     return self;
 }

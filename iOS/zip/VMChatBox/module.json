@@ -1,0 +1,5 @@
+ {
+ "name":"VMChatBox",
+ "class":"UZUIChatBox",
+ "methods":["open","close","popupKeyboard","closeKeyboard","popupBoard","closeBoard","show","hide","value","insertValue","addEventListener","setPlaceholder","reloadExtraBoard"]
+ }

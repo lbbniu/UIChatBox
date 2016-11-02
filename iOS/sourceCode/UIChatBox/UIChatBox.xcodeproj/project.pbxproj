@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		016AA8231DC8892200FBC863 /* UZUIPageControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 016AA8221DC8892200FBC863 /* UZUIPageControlView.m */; };
 		03F962B21B4BE6F2006F9E28 /* UZUIChatBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F962AD1B4BE6F2006F9E28 /* UZUIChatBox.m */; };
 		03F962B31B4BE6F2006F9E28 /* UZUIChatBoxBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F962AF1B4BE6F2006F9E28 /* UZUIChatBoxBtnView.m */; };
 		03F962B41B4BE6F2006F9E28 /* UZUIChatBoxTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F962B11B4BE6F2006F9E28 /* UZUIChatBoxTextView.m */; };
@@ -25,6 +26,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		016AA8211DC8892200FBC863 /* UZUIPageControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UZUIPageControlView.h; sourceTree = "<group>"; };
+		016AA8221DC8892200FBC863 /* UZUIPageControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UZUIPageControlView.m; sourceTree = "<group>"; };
 		03F9627C1B4BE603006F9E28 /* libUIChatBox.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUIChatBox.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F9628D1B4BE603006F9E28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03F962A41B4BE6E4006F9E28 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -78,6 +81,8 @@
 		03F9627E1B4BE603006F9E28 /* UIChatBox */ = {
 			isa = PBXGroup;
 			children = (
+				016AA8211DC8892200FBC863 /* UZUIPageControlView.h */,
+				016AA8221DC8892200FBC863 /* UZUIPageControlView.m */,
 				03F962AC1B4BE6F2006F9E28 /* UZUIChatBox.h */,
 				03F962AD1B4BE6F2006F9E28 /* UZUIChatBox.m */,
 				03F962AE1B4BE6F2006F9E28 /* UZUIChatBoxBtnView.h */,
@@ -188,6 +193,7 @@
 			files = (
 				03F962B21B4BE6F2006F9E28 /* UZUIChatBox.m in Sources */,
 				03F962B31B4BE6F2006F9E28 /* UZUIChatBoxBtnView.m in Sources */,
+				016AA8231DC8892200FBC863 /* UZUIPageControlView.m in Sources */,
 				03F962B41B4BE6F2006F9E28 /* UZUIChatBoxTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +326,7 @@
 				03F962921B4BE603006F9E28 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
