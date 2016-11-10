@@ -126,15 +126,15 @@
             });
         }else{
            UIChatBox.addEventListener({
-                target: 'inputBar',
-                name: 'showExtras'
-            }, function( ret, err ){
-                if( ret ){
-                    api.toast({msg: JSON.stringify( ret ),location:"top"} );
-                }else{
-                    api.toast({msg: JSON.stringify( err ),location:"top"} );
-                }
-            });
+            target: 'inputBar',
+            name: 'showExtras'
+	        }, function (ret, err) {
+	            if (ret.isShow) { //打开快捷输入面包
+	                api.toast({msg: JSON.stringify(ret), location: "top"});
+	            } else {//关闭快捷输入面板
+	                api.toast({msg: JSON.stringify(ret), location: "top"});
+	            }
+	        });
         }
     }
     
@@ -192,7 +192,7 @@
     
     function fnOpen( el ){
         UIChatBox.open({
-            placeholder: '输入发送内容',
+            placeholder: '',
             //autoFocus: true,
             maxRows:1,
             styles: {
@@ -208,10 +208,14 @@
                 indicator: {
                     target:"extrasPanel",
                     color: '#ecedee',
-                    activeColor: '#28d4bc',
+                    activeColor: '#28d4bc'
                 },
                 inputBar:{
                     bgColor:"#ecedee",
+                    borderColor:"#ecedee"
+                },
+                inputBox:{
+                    borderColor:"#ecedee"
                 }
             },
             extras: {

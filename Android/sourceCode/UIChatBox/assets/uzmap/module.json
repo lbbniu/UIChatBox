@@ -1,8 +1,0 @@
-{
-	modules:[
-		{
-			name:'UIChatBox',
-			class:'com.lbbniu.daishu.uzUIChatBox.UzUIChatBox'
-		}
-	]
-}

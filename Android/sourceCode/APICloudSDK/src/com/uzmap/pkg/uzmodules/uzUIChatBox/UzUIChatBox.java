@@ -117,6 +117,7 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 	private boolean isShowAnimation;
 	private boolean isKeyBoardVisible;
 	private boolean isIndicatorVisible;
+	private boolean isShow = false;
 	private Handler mDelayedHandler = new Handler();
 	private Runnable mDelayedRunnable = new Runnable() {
 		@Override
@@ -574,9 +575,10 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 	}
 
 	private void initTableLayout() {
+		//lbbniu 高度
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.MATCH_PARENT,
-				UZUtility.dipToPix(50) * 4 + UZUtility.dipToPix(20));
+				UZUtility.dipToPix(50) * 3 + UZUtility.dipToPix(20));
 		mTableLayout.setLayoutParams(params);
 		mTableLayout.setVisibility(View.GONE);
 		//mTableLayout.addView(mFaceViewPager);
@@ -590,11 +592,13 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 
 	private void initSpeechBtn() {
 		LayoutParams params = new LayoutParams(
-				UZUtility.dipToPix(Constans.BTN_SIZE),
-				UZUtility.dipToPix(Constans.BTN_SIZE));
+				UZUtility.dipToPix(Constans.BTN_SIZE-10),
+				UZUtility.dipToPix(Constans.BTN_SIZE-10));
 		params.gravity = Gravity.BOTTOM;
-		int margin = UZUtility.dipToPix(Constans.INPUT_BOX_MARGIN);
-		params.setMargins(margin, margin, margin, margin);
+		int left = UZUtility.dipToPix(Constans.INPUT_BOX_MARGIN+6);
+		int top = UZUtility.dipToPix(Constans.INPUT_BOX_MARGIN+6);
+		int right = UZUtility.dipToPix(Constans.INPUT_BOX_MARGIN+2);
+		params.setMargins(left, top, right, top);
 		mSpeechBtn.setLayoutParams(params);
 		initSpeechBtnVisible();
 		initSpeechBtnBg();
@@ -794,7 +798,7 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 				LayoutParams.WRAP_CONTENT, 1.0f);
 		params.gravity = Gravity.CENTER_VERTICAL;
 		int margin = UZUtility.dipToPix(Constans.INPUT_BOX_MARGIN);
-		int right = UZUtility.dipToPix(-Constans.INPUT_BOX_MARGIN-40);
+		int right = UZUtility.dipToPix(-Constans.INPUT_BOX_MARGIN-32);
 		params.setMargins(margin, margin, right, margin);
 		
 		mEditText.setLayoutParams(params);
@@ -835,9 +839,10 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 				UZUtility.dipToPix(Constans.BTN_SIZE-5),
 				UZUtility.dipToPix(Constans.BTN_SIZE-5));
 		params.gravity = Gravity.BOTTOM;
+		int left = UZUtility.dipToPix(Constans.INPUT_BOX_MARGIN);
 		int margin = UZUtility.dipToPix(Constans.INPUT_BOX_MARGIN+5);
-		int right =UZUtility.dipToPix(20);
-		params.setMargins(margin, margin, right, margin);
+		int right =UZUtility.dipToPix(22);
+		params.setMargins(left, margin, right, margin);
 		mFaceBtn.setLayoutParams(params);
 	}
 
@@ -992,7 +997,8 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 		if (v == mSpeechBtn) {
 			//onSpeechBtnClick();
 			onExtraBtnClick();
-			clickCallBack("showRecord");
+			//clickCallBack("showRecord");
+			clickCallBack("showExtras");
 		} else if (v == mFaceBtn) {
 			//onFaceBtnClick();
 			//clickCallBack("showEmotion");
@@ -1042,6 +1048,8 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 		if (pageNums <= 1) {
 			mIndictorView.setVisibility(View.GONE);
 		}
+		mEditText.clearFocus();
+		isShow = true;
 		mIndictorView.setPointNums(pageNums);
 		mIndictorView.setCurrentIndex(mExtraViewPager.getCurrentItem());
 	}
@@ -1404,6 +1412,7 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 		if (dipPanelHeight != 0) {
 			mKeyboardHeight = dipPanelHeight;
 		}
+		isShow = false;
 		inputFieldCallBack(mToggleKeyboardCallBack, inputBarHeight,
 				dipPanelHeight);
 	}
@@ -1413,8 +1422,10 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 		int inputBarHeight = UZCoreUtil.pixToDip(mEditText.getHeight());
 		if (isVisible != isTableVisible) {
 			if (isVisible) {
-				inputFieldCallBack(mToggleKeyboardCallBack, inputBarHeight, 220);
+				isShow = true;
+				inputFieldCallBack(mToggleKeyboardCallBack, inputBarHeight, 170);
 			} else {
+				isShow = false;
 				inputFieldCallBack(mToggleKeyboardCallBack, inputBarHeight, 0);
 			}
 		}
@@ -1432,6 +1443,7 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 			Log.d("lbbniu", "======"+inputFieldH+"===="+chatViewH+"===");
 			JSONObject result = new JSONObject();
 			try {
+				result.put("isShow", isShow);
 				result.put("inputBarHeight", inputFieldH);
 				result.put("panelHeight", chatViewH);
 				if (moduleContext != null) {
@@ -1447,12 +1459,15 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 		boolean isVisible = isViewVisible(mTableLayout);
 		int inputBarHeight = UZCoreUtil.pixToDip(mEditText.getHeight());
 		if (isVisible) {
-			inputFieldCallBack(mChangeCallBack, inputBarHeight, 220);
+			isShow = true;
+			inputFieldCallBack(mChangeCallBack, inputBarHeight, 170);
 		} else {
 			if (isKeyBoardVisible) {
+				isShow = false;
 				inputFieldCallBack(mChangeCallBack, inputBarHeight,
 						mKeyboardHeight);
 			} else {
+				isShow = false;
 				inputFieldCallBack(mChangeCallBack, inputBarHeight, 0);
 			}
 		}
