@@ -319,7 +319,7 @@ float widthForString(NSString *value ,float fontSize ,float height);
         self.sendBtnInfo = speechBtnInfo;
         showSpeechBtn = YES;
         UIButton *speechBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        speechBtn.frame = CGRectMake(8, 10, 30, 30);
+        speechBtn.frame = CGRectMake(15, 15, 20, 20);
         speechBtn.tag = TagSpeechBtn;
         NSString *normalIcon = [self getPathWithUZSchemeURL:[speechBtnInfo objectForKey:@"normalImg"]];
         NSString *normalIconAC = [self getPathWithUZSchemeURL:[speechBtnInfo objectForKey:@"activeImg"]];
@@ -339,18 +339,18 @@ float widthForString(NSString *value ,float fontSize ,float height);
     NSString *borderColors = [inputBoxInfo stringValueForKey:@"borderColor" defaultValue:@"#B3B3B3"];
     NSString *fileBgColors = [inputBoxInfo stringValueForKey:@"bgColor" defaultValue:@"#ffffff"];
     float textX = 8;
-    float textXW = _mainScreenWidth-94;
+    float textXW = _mainScreenWidth-30;
     if (showSpeechBtn) {
-        textX = 16 + 30;
-        textXW = textXW - 30 - 8;
+        textX = 30 + 20;
+        textXW = textXW - 20 - 16;
     }
     if (extrasBtnStyle == nil) {
-        textXW += 40 + 36;
+        //textXW += 40 + 36;
     }
     autoFocus = [paramDict_ boolValueForKey:@"autoFocus" defaultValue:NO];
-    _textView = [[UZUIChatBoxTextView alloc] initWithFrame:CGRectMake(textX, 9, textXW, 34)];
+    _textView = [[UZUIChatBoxTextView alloc] initWithFrame:CGRectMake(textX, 7.5, textXW, 34)];
     _textView.delegate = self;
-    _textView.layer.cornerRadius = 17.0;
+    _textView.layer.cornerRadius = 18.0;
     _textView.layer.borderColor = [UZAppUtils colorFromNSString:borderColors].CGColor;
     _textView.returnKeyType = UIReturnKeySend;
     _textView.layer.borderWidth = 1;
@@ -412,9 +412,9 @@ float widthForString(NSString *value ,float fontSize ,float height);
     //表情按钮 这里改成了发送按钮的功能
     UIButton *emotionKeyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     if (extrasBtnStyle) {
-        emotionKeyBtn.frame = CGRectMake(_mainScreenWidth-18-59,12.5, 26, 26);
+        emotionKeyBtn.frame = CGRectMake(_mainScreenWidth-18-59,11.5, 26, 26);
     } else {
-        emotionKeyBtn.frame = CGRectMake(_mainScreenWidth-9-30, 12.5, 26, 26);
+        emotionKeyBtn.frame = CGRectMake(_mainScreenWidth-45, 11.5, 26, 26);
     }
     emotionKeyBtn.tag = TagEmotionBtn;
     UIImage *emotionImg = [UIImage imageWithContentsOfFile:emotionNormalImg];
@@ -1589,7 +1589,7 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
 - (void)send:(id)btn {
     //将输入框大小打回原形
     CGRect textTemp = _textView.frame;
-    textTemp.size.height = 32;
+    textTemp.size.height = 34;
     _textView.frame = textTemp;
     CGRect textBoardTemp = _chatBgView.frame;
     if(textBoardTemp.size.height>50){
@@ -1607,7 +1607,7 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
     //下分割线
     UIView *line = [_chatBgView viewWithTag:TagCutLineDown];
     CGRect lineRect = line.frame;
-    lineRect.origin.y = _chatBgView.frame.size.height - 1;
+    lineRect.origin.y = _chatBgView.frame.size.height;
     line.frame = lineRect;
     //回调给前端
     NSString *willSendText = _textView.text;
