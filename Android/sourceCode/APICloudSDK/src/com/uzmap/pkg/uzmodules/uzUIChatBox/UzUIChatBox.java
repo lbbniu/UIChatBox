@@ -576,9 +576,10 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 
 	private void initTableLayout() {
 		//lbbniu 高度
+		int panlHeight = mModuleContext.optInt("panlHeight",175);
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				RelativeLayout.LayoutParams.MATCH_PARENT,
-				UZUtility.dipToPix(50) * 3 + UZUtility.dipToPix(20));
+				UZUtility.dipToPix(panlHeight) );// + UZUtility.dipToPix(20)
 		mTableLayout.setLayoutParams(params);
 		mTableLayout.setVisibility(View.GONE);
 		//mTableLayout.addView(mFaceViewPager);
@@ -1423,7 +1424,8 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 		if (isVisible != isTableVisible) {
 			if (isVisible) {
 				isShow = true;
-				inputFieldCallBack(mToggleKeyboardCallBack, inputBarHeight, 170);
+				int panlHeight = mModuleContext.optInt("panlHeight",175);
+				inputFieldCallBack(mToggleKeyboardCallBack, inputBarHeight, panlHeight+20);
 			} else {
 				isShow = false;
 				inputFieldCallBack(mToggleKeyboardCallBack, inputBarHeight, 0);
@@ -1440,7 +1442,7 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 	public void inputFieldCallBack(UZModuleContext moduleContext,
 			int inputFieldH, int chatViewH) {
 		//if (isCallBack) {
-			Log.d("lbbniu", "======"+inputFieldH+"===="+chatViewH+"===");
+			//Log.d("lbbniu", "======"+inputFieldH+"===="+chatViewH+"===");
 			JSONObject result = new JSONObject();
 			try {
 				result.put("isShow", isShow);
@@ -1460,7 +1462,8 @@ public class UzUIChatBox extends UZModule implements OnClickListener,
 		int inputBarHeight = UZCoreUtil.pixToDip(mEditText.getHeight());
 		if (isVisible) {
 			isShow = true;
-			inputFieldCallBack(mChangeCallBack, inputBarHeight, 170);
+			int panlHeight = mModuleContext.optInt("panlHeight",175);
+			inputFieldCallBack(mChangeCallBack, inputBarHeight, panlHeight+20);
 		} else {
 			if (isKeyBoardVisible) {
 				isShow = false;

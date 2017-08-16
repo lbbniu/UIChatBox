@@ -546,7 +546,7 @@
 				TargetAttributes = {
 					527BCF6A19C431480077631F = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = 8DYK63463V;
+						DevelopmentTeam = Q5R9NQQDS3;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 0;
@@ -730,7 +730,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
-				DEVELOPMENT_TEAM = 8DYK63463V;
+				DEVELOPMENT_TEAM = Q5R9NQQDS3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/UZApp/UZModules";
 				INFOPLIST_FILE = UZApp/Info.plist;
@@ -747,6 +747,7 @@
 					"-force_load",
 					"$(PROJECT_DIR)/UZApp/UZEngine/libUZEngine.a",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lbbniu.apicloud.UZApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "UZApp/UZModules/UZApp-Bridging-Header.h";
@@ -766,7 +767,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_RESOURCE_RULES_PATH = "";
-				DEVELOPMENT_TEAM = 8DYK63463V;
+				DEVELOPMENT_TEAM = Q5R9NQQDS3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/UZApp/UZModules";
 				INFOPLIST_FILE = UZApp/Info.plist;
@@ -782,6 +783,7 @@
 					"-force_load",
 					"$(PROJECT_DIR)/UZApp/UZEngine/libUZEngine.a",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lbbniu.apicloud.UZApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "UZApp/UZModules/UZApp-Bridging-Header.h";

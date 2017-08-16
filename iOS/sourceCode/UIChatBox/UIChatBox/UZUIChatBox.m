@@ -57,7 +57,7 @@ typedef enum {
     UIView *btnSuperView;
     BOOL autoFocus, isKeyboardShow;
     NSString *sendBtnBgStr, *sendBtnAcStr, *sendBtnTitle, *sendBtnTitleColor;
-    float sendBtnTilteSize;
+    float sendBtnTilteSize,panlHeight;
 }
 
 @property (nonatomic, strong) NSString *placeholderStr;
@@ -179,6 +179,7 @@ float widthForString(NSString *value ,float fontSize ,float height);
             _maxHeight = lineMaxNum*20.0 + 12;
         }
     }
+   
     NSDictionary *texts = [paramDict_ dictValueForKey:@"texts" defaultValue:@{}];
     NSDictionary *sendBtnDict = [texts dictValueForKey:@"sendBtn" defaultValue:@{}];
     sendBtnTitle = [sendBtnDict stringValueForKey:@"title" defaultValue:@"发送"];
@@ -189,6 +190,7 @@ float widthForString(NSString *value ,float fontSize ,float height);
     sendBtnTitleColor = [sendBtn stringValueForKey:@"titleColor" defaultValue:@"#ffffff"];
     sendBtnTilteSize = [sendBtn floatValueForKey:@"titleSize" defaultValue:13.0];
     _viewName = [paramDict_ stringValueForKey:@"fixedOn" defaultValue:nil];
+     panlHeight = [paramDict_ floatValueForKey:@"panlHeight" defaultValue:175];
     //页面控制器配置
     NSDictionary *pageConInfo = [styles dictValueForKey:@"indicator" defaultValue:nil];
     if (pageConInfo) {
@@ -757,13 +759,13 @@ float widthForString(NSString *value ,float fontSize ,float height);
     pageControlExtra.currentPage = 0;
     if (showPgControll==both || showPgControll==emotionBoard) {
         if (pageNumAdd > 1) {
-            self.pageControlExtra.center = CGPointMake(_mainScreenWidth/2.0, 128-10);
+            self.pageControlExtra.center = CGPointMake(_mainScreenWidth/2.0, panlHeight-10);
             [_extrasBoard addSubview:pageControlExtra];
         }
     }
     //添加滚动视图
     UIScrollView *addSource = [_extrasBoard viewWithTag:TagExtraBoard];
-    [addSource setContentSize:CGSizeMake(_mainScreenWidth*pageNumAdd, 128)];
+    [addSource setContentSize:CGSizeMake(_mainScreenWidth*pageNumAdd, panlHeight)];
     //移除所有的
     NSArray *allSubview = [addSource subviews];
     for (int i=0; i<allSubview.count; i++) {
@@ -1046,7 +1048,7 @@ float widthForString(NSString *value ,float fontSize ,float height);
         _emotionView.frame = emojiRect;
         //弹出添加板
         CGRect motionRect = _extrasBoard.frame;
-        motionRect.origin.y = _mainScreenHeight-128;
+        motionRect.origin.y = _mainScreenHeight-panlHeight;
         [self.viewController.view bringSubviewToFront:_extrasBoard];
         //输入框移动
         CGRect inputRect = _chatBgView.frame;
@@ -1301,7 +1303,7 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
         return;
     }
     _extrasBoard = [[UIView alloc]init];
-    _extrasBoard.frame = CGRectMake(0, _mainScreenHeight,_mainScreenWidth , 128);
+    _extrasBoard.frame = CGRectMake(0, _mainScreenHeight,_mainScreenWidth , panlHeight);
     _extrasBoard.backgroundColor = [UZAppUtils colorFromNSString:@"#ffffff"];
     [self addSubview:_extrasBoard fixedOn:_viewName fixed:YES];
     //计算每行按钮个数
@@ -1317,7 +1319,7 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
     //计算按钮间隙
     //float verInterval = (_mainScreenWidth - 65*btnNum)/(btnNum + 1);
     //添加页码控制器
-    self.pageControlExtra = [[UZUIPageControlView alloc]initWithFrame:CGRectMake(0,128-10,126,7)];
+    self.pageControlExtra = [[UZUIPageControlView alloc]initWithFrame:CGRectMake(0,panlHeight-10,126,7)];
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0) {
         [pageControlExtra setCurrentPageIndicatorTintColor:[UZAppUtils colorFromNSString:_pgActiveColor]];
         [pageControlExtra setPageIndicatorTintColor:[UZAppUtils colorFromNSString:_pgColor]];
@@ -1328,7 +1330,7 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
     [pageControlExtra setBounds:CGRectMake(0,0,16*(pageNumAdd-1)+16,7)];
     if (showPgControll==both || showPgControll==extrasBoard) {
         if (pageNumAdd > 1) {
-            self.pageControlExtra.center = CGPointMake(_mainScreenWidth/2.0, 128-10);
+            self.pageControlExtra.center = CGPointMake(_mainScreenWidth/2.0, panlHeight-10);
             [_extrasBoard addSubview:pageControlExtra];
         }
     }
@@ -1343,7 +1345,7 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
     addSource.showsHorizontalScrollIndicator = NO;
     addSource.tag = TagExtraBoard;
     [_extrasBoard addSubview:addSource];
-    [addSource setContentSize:CGSizeMake(_mainScreenWidth*pageNumAdd, 128)];
+    [addSource setContentSize:CGSizeMake(_mainScreenWidth*pageNumAdd, panlHeight)];
     
     NSString *titleColor = [extrasInfo stringValueForKey:@"titleColor" defaultValue:nil];
     if (![titleColor isKindOfClass:[NSString class]] || titleColor.length<=0) {
@@ -1526,14 +1528,21 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
     NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGRect keyboardRect = [aValue CGRectValue];
     int height = keyboardRect.size.height;
+    //获取键盘动画时间
+    NSTimeInterval duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    //时间曲线信息
+    UIViewAnimationOptions options = [userInfo[UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue] << 16;
     
     CGRect  tempFrame = _chatBgView.frame;
     tempFrame.origin.y = _mainScreenHeight - height - _chatBgView.frame.size.height;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDuration:0.3];
-    [_chatBgView setFrame:tempFrame];
-    [UIView commitAnimations];
+    //[UIView beginAnimations:nil context:NULL];
+    //[UIView setAnimationBeginsFromCurrentState:YES];
+    //[UIView setAnimationDuration:duration];
+    //[_chatBgView setFrame:tempFrame];
+    //[UIView commitAnimations];
+    [UIView animateWithDuration:duration delay:0 options:options animations:^{
+        [_chatBgView setFrame:tempFrame];
+    } completion:nil];
     self.currentInputfeildHeight = _chatBgView.frame.size.height;
     self.currentChatViewHeight = _mainScreenHeight - self.currentInputfeildHeight - _chatBgView.frame.origin.y;
     [self.viewController.view bringSubviewToFront:_chatBgView];
@@ -1547,11 +1556,23 @@ int getLBBRowCountWith(float screenWidth ,NSArray *btnsAry)
     isKeyboardShow = NO;
     CGRect  tempFrame = _chatBgView.frame;
     tempFrame.origin.y = _mainScreenHeight-_chatBgView.frame.size.height;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDuration:0.3];
-    [_chatBgView setFrame:tempFrame];
-    [UIView commitAnimations];
+    
+    
+    NSDictionary *userInfo = [aNotification userInfo];
+    //获取键盘动画时间
+    NSTimeInterval duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    //时间曲线信息
+    UIViewAnimationOptions options = [userInfo[UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue] << 16;
+    
+    //[UIView beginAnimations:nil context:NULL];
+    //[UIView setAnimationBeginsFromCurrentState:YES];
+    //[UIView setAnimationDuration:duration];
+    //[_chatBgView setFrame:tempFrame];
+    //[UIView commitAnimations];
+    
+    [UIView animateWithDuration:duration delay:0 options:options animations:^{
+        [_chatBgView setFrame:tempFrame];
+    } completion:nil];
     self.currentInputfeildHeight = _chatBgView.frame.size.height;
     self.currentChatViewHeight = _mainScreenHeight-self.currentInputfeildHeight-_chatBgView.frame.origin.y;
 }
